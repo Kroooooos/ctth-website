@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理后台 | China Telecom (Thailand)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="assets/img/logo-ct.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue: #0a59f7; --ink: #1d1d1f; --soft: #515154; --bg: #f5f5f7; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Inter", "Noto Sans SC", -apple-system, sans-serif;
+      background: var(--bg); color: var(--ink); min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+    .panel { width: 100%; max-width: 760px; }
+    .card {
+      background: #fff; border-radius: 24px; padding: 44px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+    }
+    h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; }
+    .sub { font-size: 14px; color: var(--soft); margin-bottom: 28px; }
+    .gate input {
+      width: 100%; padding: 14px 18px; font-size: 16px; border: 1.5px solid #d2d2d7;
+      border-radius: 12px; outline: none; font-family: inherit; margin-bottom: 14px;
+    }
+    .gate input:focus { border-color: var(--blue); }
+    .gate button {
+      width: 100%; padding: 14px; font-size: 16px; font-weight: 600; color: #fff;
+      background: var(--blue); border: 0; border-radius: 99px; cursor: pointer; font-family: inherit;
+    }
+    .gate button:hover { background: #0040c1; }
+    .gate .err { color: #d70015; font-size: 13px; margin-top: 10px; display: none; }
+    .dash { display: none; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: var(--bg); border-radius: 16px; padding: 26px; text-align: center; }
+    .stat-card .num { font-size: 40px; font-weight: 800; color: var(--blue); font-variant-numeric: tabular-nums; }
+    .stat-card .label { font-size: 13px; color: var(--soft); margin-top: 4px; }
+    .note { font-size: 13px; color: var(--soft); line-height: 1.7; border-top: 1px solid #e3e3e6; padding-top: 18px; }
+    .note a { color: var(--blue); text-decoration: none; }
+    .meta { font-size: 13px; color: var(--soft); margin-bottom: 18px; }
+    .back { display: inline-block; margin-top: 22px; font-size: 14px; color: var(--blue); text-decoration: none; }
+    @media (max-width: 540px) { .card { padding: 30px 22px; } .stat-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="panel">
+  <div class="card">
+    <h1>访问统计后台</h1>
+    <p class="sub">China Telecom (Thailand) — 仅供内部查看</p>
+
+    <div class="gate" id="gate">
+      <input type="password" id="passInput" placeholder="请输入访问口令" autocomplete="off">
+      <button id="loginBtn" type="button">进入</button>
+      <p class="err" id="gateErr">口令不正确</p>
+    </div>
+
+    <div class="dash" id="dash">
+      <p class="meta" id="todayMeta"></p>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="num"><span id="busuanzi_value_site_pv">—</span></div>
+          <div class="label">站点总浏览量 PV</div>
+        </div>
+        <div class="stat-card">
+          <div class="num"><span id="busuanzi_value_site_uv">—</span></div>
+          <div class="label">站点独立访客 UV</div>
+        </div>
+      </div>
+      <div class="note">
+        <p>统计说明：</p>
+        <p>· PV/UV 由不蒜子（busuanzi）统计，访客打开首页即计数，数据为全站累计值，加载需 1–2 秒。</p>
+        <p>· 更细的访问来源、地域与趋势，可查看 GitHub 仓库的 <a href="https://github.com/Kroooooos/ctth-website/graphs/traffic" target="_blank" rel="noopener">Insights → Traffic</a>（需仓库管理员登录）。</p>
+        <p>· 本页已设置 noindex，不会被搜索引擎收录。</p>
+      </div>
+      <a class="back" href="index.html">← 返回网站首页</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const HASH = "e3b0f31e21951d1777c6664a5924cb58eb1d5dc67dd9a769a7e3c374cf96bae6";
+  const gate = document.getElementById("gate");
+  const dash = document.getElementById("dash");
+
+  async function sha256Hex(text) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  function unlock() {
+    gate.style.display = "none";
+    dash.style.display = "block";
+    document.getElementById("todayMeta").textContent =
+      "查看时间：" + new Date().toLocaleString("zh-CN", { hour12: false });
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
+    document.body.appendChild(s);
+  }
+
+  async function tryLogin() {
+    const v = document.getElementById("passInput").value.trim();
+    if (v && await sha256Hex(v) === HASH) {
+      sessionStorage.setItem("ctth-admin", "1");
+      unlock();
+    } else {
+      document.getElementById("gateErr").style.display = "block";
+    }
+  }
+
+  document.getElementById("loginBtn").addEventListener("click", tryLogin);
+  document.getElementById("passInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") tryLogin();
+  });
+
+  if (sessionStorage.getItem("ctth-admin") === "1") unlock();
+})();
+</script>
+</body>
+</html>
