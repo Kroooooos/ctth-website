@@ -41,7 +41,7 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
-  /* ---------- Mobile nav ---------- */
+  /* ---------- Mobile nav + dropdown ---------- */
   const nav = document.getElementById("mainNav");
   const navToggle = document.getElementById("navToggle");
   if (nav && navToggle) {
@@ -49,10 +49,17 @@
       nav.classList.toggle("open");
       navToggle.classList.toggle("active");
     });
+    nav.querySelectorAll(".sub-toggle").forEach(btn =>
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        btn.closest(".nav-item").classList.toggle("open");
+      })
+    );
     nav.addEventListener("click", e => {
       if (e.target.tagName === "A") {
         nav.classList.remove("open");
         navToggle.classList.remove("active");
+        nav.querySelectorAll(".nav-item.open").forEach(i => i.classList.remove("open"));
       }
     });
   }
