@@ -72,6 +72,11 @@ a { color: inherit; text-decoration: none; }
   display: flex; flex-direction: column; gap: 2px;
   opacity: 0; visibility: hidden; transition: opacity .25s, transform .25s; z-index: 110;
 }
+/* transparent hover bridge so the gap between trigger and menu stays hoverable */
+.nav-item.has-sub::after {
+  content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  width: 200px; height: 18px;
+}
 .nav-item:hover .sub-menu { opacity: 1; visibility: visible; transform: translate(-50%, 4px); }
 .nav-item:hover .nav-top::after { transform: rotate(90deg) translateX(2px); }
 .sub-menu a {
@@ -499,6 +504,7 @@ a { color: inherit; text-decoration: none; }
   .nav-item .nav-top { padding: 14px 0; font-size: 16px; flex: 1; }
   .nav-item { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; }
   .nav-top::after { display: none; }
+  .nav-item.has-sub::after { display: none; }
   .sub-toggle {
     display: block; margin-left: auto; width: 38px; height: 38px; border: 0; cursor: pointer;
     background: transparent; color: #fff; position: relative;
