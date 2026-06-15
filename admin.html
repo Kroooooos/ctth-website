@@ -8,20 +8,20 @@
   <link rel="icon" type="image/png" href="assets/img/logo-ct.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root { --blue: #0a59f7; --ink: #1d1d1f; --soft: #515154; --bg: #f5f5f7; }
+    :root { --blue: #0a59f7; --blue-deep:#0040c1; --ink: #1d1d1f; --soft: #515154; --bg: #f5f5f7; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: "Inter", "Noto Sans SC", -apple-system, sans-serif;
       background: var(--bg); color: var(--ink); min-height: 100vh;
-      display: flex; align-items: center; justify-content: center; padding: 24px;
+      display: flex; align-items: flex-start; justify-content: center; padding: 40px 24px;
     }
-    .panel { width: 100%; max-width: 760px; }
-    .card {
-      background: #fff; border-radius: 24px; padding: 44px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.06);
-    }
-    h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; }
-    .sub { font-size: 14px; color: var(--soft); margin-bottom: 28px; }
+    .panel { width: 100%; max-width: 920px; }
+    .card { background: #fff; border-radius: 24px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.06); }
+    .head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    h1 { font-size: 25px; font-weight: 800; letter-spacing: -0.01em; }
+    .sub { font-size: 14px; color: var(--soft); margin-top: 4px; }
+
+    .gate { max-width: 420px; margin-top: 26px; }
     .gate input {
       width: 100%; padding: 14px 18px; font-size: 16px; border: 1.5px solid #d2d2d7;
       border-radius: 12px; outline: none; font-family: inherit; margin-bottom: 14px;
@@ -31,25 +31,66 @@
       width: 100%; padding: 14px; font-size: 16px; font-weight: 600; color: #fff;
       background: var(--blue); border: 0; border-radius: 99px; cursor: pointer; font-family: inherit;
     }
-    .gate button:hover { background: #0040c1; }
+    .gate button:hover { background: var(--blue-deep); }
     .gate .err { color: #d70015; font-size: 13px; margin-top: 10px; display: none; }
+
     .dash { display: none; }
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-    .stat-card { background: var(--bg); border-radius: 16px; padding: 26px; text-align: center; }
-    .stat-card .num { font-size: 40px; font-weight: 800; color: var(--blue); font-variant-numeric: tabular-nums; }
-    .stat-card .label { font-size: 13px; color: var(--soft); margin-top: 4px; }
-    .note { font-size: 13px; color: var(--soft); line-height: 1.7; border-top: 1px solid #e3e3e6; padding-top: 18px; }
+    .toolbar { display: flex; align-items: center; gap: 12px; }
+    .refresh {
+      font-size: 13px; font-weight: 600; color: var(--blue); background: rgba(10,89,247,0.1);
+      border: 0; border-radius: 99px; padding: 8px 16px; cursor: pointer; font-family: inherit;
+    }
+    .refresh:hover { background: rgba(10,89,247,0.18); }
+    .meta { font-size: 13px; color: var(--soft); margin: 18px 0 24px; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 30px; }
+    .stat-card { background: var(--bg); border-radius: 16px; padding: 20px 16px; text-align: center; }
+    .stat-card .num { font-size: 30px; font-weight: 800; color: var(--blue); font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .stat-card .label { font-size: 12px; color: var(--soft); margin-top: 6px; }
+
+    .chart-block { margin-bottom: 32px; }
+    .chart-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .chart-hint { font-size: 12px; color: var(--soft); margin-bottom: 18px; }
+    .chart { display: flex; align-items: flex-end; gap: 4px; height: 180px; padding-top: 18px; }
+    .col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; min-width: 0; }
+    .bar {
+      width: 78%; max-width: 26px; background: linear-gradient(180deg, #4f8bff, var(--blue));
+      border-radius: 5px 5px 0 0; min-height: 2px; position: relative; transition: filter .15s;
+    }
+    .col.now .bar { background: linear-gradient(180deg, #ffb14e, #ff9500); }
+    .col:hover .bar { filter: brightness(1.08); }
+    .bar .v {
+      position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+      font-size: 10px; font-weight: 700; color: var(--ink); white-space: nowrap; opacity: 0;
+    }
+    .col:hover .bar .v, .bar.hasv .v { opacity: 1; }
+    .lab { font-size: 10px; color: var(--soft); margin-top: 7px; white-space: nowrap; }
+    .chart.daily .lab { font-size: 10.5px; }
+
+    .note { font-size: 12.5px; color: var(--soft); line-height: 1.7; border-top: 1px solid #e3e3e6; padding-top: 18px; margin-top: 8px; }
     .note a { color: var(--blue); text-decoration: none; }
-    .meta { font-size: 13px; color: var(--soft); margin-bottom: 18px; }
-    .back { display: inline-block; margin-top: 22px; font-size: 14px; color: var(--blue); text-decoration: none; }
-    @media (max-width: 540px) { .card { padding: 30px 22px; } .stat-grid { grid-template-columns: 1fr; } }
+    .back { display: inline-block; margin-top: 20px; font-size: 14px; color: var(--blue); text-decoration: none; }
+    .loading { font-size: 14px; color: var(--soft); padding: 30px 0; text-align: center; }
+    @media (max-width: 620px) {
+      .card { padding: 28px 20px; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart { height: 150px; }
+      .lab { font-size: 9px; }
+    }
   </style>
 </head>
 <body>
 <div class="panel">
   <div class="card">
-    <h1>访问统计后台</h1>
-    <p class="sub">China Telecom (Thailand) — 仅供内部查看</p>
+    <div class="head">
+      <div>
+        <h1>访问统计后台</h1>
+        <p class="sub">China Telecom (Thailand) — 仅供内部查看</p>
+      </div>
+      <div class="toolbar" id="toolbar" style="display:none">
+        <button class="refresh" id="refreshBtn" type="button">刷新</button>
+      </div>
+    </div>
 
     <div class="gate" id="gate">
       <input type="password" id="passInput" placeholder="请输入访问口令" autocomplete="off">
@@ -58,65 +99,124 @@
     </div>
 
     <div class="dash" id="dash">
-      <p class="meta" id="todayMeta"></p>
+      <p class="meta" id="meta"></p>
+
       <div class="stat-grid">
-        <div class="stat-card">
-          <div class="num"><span id="busuanzi_value_site_pv">—</span></div>
-          <div class="label">站点总浏览量 PV</div>
-        </div>
-        <div class="stat-card">
-          <div class="num"><span id="busuanzi_value_site_uv">—</span></div>
-          <div class="label">站点独立访客 UV</div>
-        </div>
+        <div class="stat-card"><div class="num" id="sToday">—</div><div class="label">今日访问</div></div>
+        <div class="stat-card"><div class="num" id="s24">—</div><div class="label">近 24 小时</div></div>
+        <div class="stat-card"><div class="num" id="s7">—</div><div class="label">近 7 天</div></div>
+        <div class="stat-card"><div class="num"><span id="busuanzi_value_site_pv">—</span></div><div class="label">累计 PV</div></div>
+        <div class="stat-card"><div class="num"><span id="busuanzi_value_site_uv">—</span></div><div class="label">累计 UV</div></div>
       </div>
+
+      <div class="chart-block">
+        <p class="chart-title">每小时访问量（近 24 小时）</p>
+        <p class="chart-hint">按曼谷时间（UTC+7）分时段统计，橙色为当前小时</p>
+        <div class="chart" id="hourChart"><div class="loading">加载中…</div></div>
+      </div>
+
+      <div class="chart-block">
+        <p class="chart-title">每日访问量（近 14 天）</p>
+        <p class="chart-hint">按曼谷时间（UTC+7）按日统计，橙色为今日</p>
+        <div class="chart daily" id="dayChart"><div class="loading">加载中…</div></div>
+      </div>
+
       <div class="note">
         <p>统计说明：</p>
-        <p>· PV/UV 由不蒜子（busuanzi）统计，访客打开首页即计数，数据为全站累计值，加载需 1–2 秒。</p>
-        <p>· 更细的访问来源、地域与趋势，可查看 GitHub 仓库的 <a href="https://github.com/Kroooooos/ctth-website/graphs/traffic" target="_blank" rel="noopener">Insights → Traffic</a>（需仓库管理员登录）。</p>
-        <p>· 本页已设置 noindex，不会被搜索引擎收录。</p>
+        <p>· 分时段数据由站点在每次访问时按曼谷时间写入计数桶（CounterAPI），后台实时读取并绘制；新部署后需有访问才开始累积。</p>
+        <p>· 累计 PV / UV 由不蒜子（busuanzi）统计，为全站累计值，加载需 1–2 秒。</p>
+        <p>· 更细的来源与地域可查看 GitHub 仓库 <a href="https://github.com/Kroooooos/ctth-website/graphs/traffic" target="_blank" rel="noopener">Insights → Traffic</a>。本页已设 noindex。</p>
       </div>
       <a class="back" href="index.html">← 返回网站首页</a>
     </div>
   </div>
 </div>
 
+<script src="js/analytics.js"></script>
 <script>
 (function () {
   const HASH = "e3b0f31e21951d1777c6664a5924cb58eb1d5dc67dd9a769a7e3c374cf96bae6";
+  const A = window.CTTH_ANALYTICS;
   const gate = document.getElementById("gate");
   const dash = document.getElementById("dash");
+  const $ = id => document.getElementById(id);
 
   async function sha256Hex(text) {
     const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
   }
 
+  function renderChart(el, items, daily) {
+    const max = Math.max(1, ...items.map(i => i.count));
+    el.classList.toggle("daily", !!daily);
+    el.innerHTML = items.map(i => {
+      const h = Math.round((i.count / max) * 100);
+      const hasv = i.count > 0 ? "hasv" : "";
+      return `<div class="col ${i.now ? "now" : ""}">
+        <div class="bar ${hasv}" style="height:${Math.max(h, i.count > 0 ? 4 : 1)}%">
+          <span class="v">${i.count}</span>
+        </div>
+        <span class="lab">${i.label}</span>
+      </div>`;
+    }).join("");
+  }
+
+  async function loadStats() {
+    const now = new Date();
+    // hourly: last 24 hours
+    const hours = [];
+    for (let i = 23; i >= 0; i--) {
+      const d = new Date(now.getTime() - i * 3600 * 1000);
+      const p = A.bkk(d);
+      hours.push({ key: A.hourKey(p), label: A.pad(p.h), now: i === 0 });
+    }
+    // daily: last 14 days
+    const days = [];
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date(now.getTime() - i * 86400 * 1000);
+      const p = A.bkk(d);
+      days.push({ key: A.dayKey(p), label: p.m + "/" + p.d, now: i === 0 });
+    }
+
+    const hourCounts = await Promise.all(hours.map(h => A.read(h.key)));
+    const dayCounts = await Promise.all(days.map(d => A.read(d.key)));
+    hours.forEach((h, i) => (h.count = hourCounts[i]));
+    days.forEach((d, i) => (d.count = dayCounts[i]));
+
+    renderChart($("hourChart"), hours, false);
+    renderChart($("dayChart"), days, true);
+
+    const sum = a => a.reduce((s, x) => s + x, 0);
+    $("s24").textContent = sum(hourCounts).toLocaleString("en-US");
+    $("s7").textContent = sum(dayCounts.slice(-7)).toLocaleString("en-US");
+    $("sToday").textContent = (days[days.length - 1].count || 0).toLocaleString("en-US");
+    $("meta").textContent = "更新时间：" + now.toLocaleString("zh-CN", { hour12: false });
+  }
+
   function unlock() {
     gate.style.display = "none";
     dash.style.display = "block";
-    document.getElementById("todayMeta").textContent =
-      "查看时间：" + new Date().toLocaleString("zh-CN", { hour12: false });
+    $("toolbar").style.display = "flex";
     const s = document.createElement("script");
     s.async = true;
     s.src = "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
     document.body.appendChild(s);
+    loadStats();
   }
 
   async function tryLogin() {
-    const v = document.getElementById("passInput").value.trim();
-    if (v && await sha256Hex(v) === HASH) {
+    const v = $("passInput").value.trim();
+    if (v && (await sha256Hex(v)) === HASH) {
       sessionStorage.setItem("ctth-admin", "1");
       unlock();
     } else {
-      document.getElementById("gateErr").style.display = "block";
+      $("gateErr").style.display = "block";
     }
   }
 
-  document.getElementById("loginBtn").addEventListener("click", tryLogin);
-  document.getElementById("passInput").addEventListener("keydown", e => {
-    if (e.key === "Enter") tryLogin();
-  });
-
+  $("loginBtn").addEventListener("click", tryLogin);
+  $("passInput").addEventListener("keydown", e => { if (e.key === "Enter") tryLogin(); });
+  $("refreshBtn").addEventListener("click", loadStats);
   if (sessionStorage.getItem("ctth-admin") === "1") unlock();
 })();
 </script>
