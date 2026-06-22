@@ -31,7 +31,14 @@
           <a href="#datacenter" data-i18n="nav.dc">数据中心</a>
         </div>
       </div>
-      <a href="#solutions" data-i18n="nav.solutions">解决方案</a>
+      <div class="nav-item has-sub">
+        <a href="#solutions" class="nav-top" data-i18n="nav.solutions">解决方案</a>
+        <button class="sub-toggle" type="button" aria-label="expand"></button>
+        <div class="sub-menu">
+          <a href="#solutions" data-i18n="nav.solOverview">智慧解决方案</a>
+          <a href="warehouse.html" data-i18n="nav.warehouse">物流仓建设</a>
+        </div>
+      </div>
       <div class="nav-item has-sub">
         <a href="#service" class="nav-top" data-i18n="nav.service">服务保障</a>
         <button class="sub-toggle" type="button" aria-label="expand"></button>
@@ -264,6 +271,23 @@
       <article class="sol-card reveal"><h3 data-i18n="sol.c5t">周界告警</h3><p data-i18n="sol.c5d">人体热感应摄像头与雷达球机联动，大幅降低误报率，录像联动证据留存。</p></article>
       <article class="sol-card reveal"><h3 data-i18n="sol.c6t">统一管理平台</h3><p data-i18n="sol.c6d">视频、人员、车辆、事件与设备一平台管理，强大仪表板与自定义视图。</p></article>
     </div>
+
+    <!-- Logistics warehouse entry → second-level page -->
+    <a class="dc-reloc-entry reveal" href="warehouse.html">
+      <div class="dre-text">
+        <span class="dre-kicker" data-i18n="sol.entKicker">解决方案延伸</span>
+        <h3 data-i18n="nav.warehouse">物流仓建设</h3>
+        <p data-i18n="sol.entDesc">从办公装修、强弱电到网络、安防与门禁，物流分拣中心与海外仓的一体化交付。已服务国内头部电商物流与东南亚头部快递企业。</p>
+        <span class="dre-link" data-i18n="sol.more">了解物流仓建设能力</span>
+      </div>
+      <div class="dre-visual" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 50 60 28l42 22v44H18z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M18 50h84M40 94V62h16v32M70 78h16v16H70z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M52 20h16v10H52z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
   </div>
 </section>
 

@@ -487,6 +487,21 @@ a { color: inherit; text-decoration: none; }
 .rp-case-gallery img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; aspect-ratio: 1; }
 .rp-case-gallery img:first-child { grid-row: span 2; aspect-ratio: auto; }
 
+/* ---------- Warehouse page ---------- */
+.wh-banner { position: relative; max-width: 1180px; margin: -60px auto 0; padding: 0 24px; }
+.wh-banner img { width: 100%; height: clamp(260px, 42vw, 520px); object-fit: cover; border-radius: 22px; display: block; box-shadow: 0 30px 70px rgba(0,0,0,0.25); }
+.wh-banner-cap {
+  position: absolute; left: 48px; bottom: 28px; color: #fff; font-size: clamp(15px, 1.6vw, 19px);
+  font-weight: 600; text-shadow: 0 2px 12px rgba(0,0,0,0.5); padding-right: 48px;
+}
+.wh-case-fig { border-radius: 18px; overflow: hidden; aspect-ratio: 4 / 3; }
+.wh-case-fig img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.wh-case-fig:hover img { transform: scale(1.04); }
+.wh-case-stack { display: grid; gap: 14px; }
+.wh-case-stack figure { border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 7; }
+.wh-case-stack img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.wh-case-stack figure:hover img { transform: scale(1.04); }
+
 .rp-cta-band { background: var(--gray-bg); padding: 100px 0; }
 .rp-cta { text-align: center; max-width: 680px; }
 .rp-cta h2 { font-size: clamp(28px, 3.6vw, 44px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.14; margin-bottom: 16px; }
