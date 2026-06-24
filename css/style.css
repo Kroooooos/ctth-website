@@ -211,22 +211,37 @@ a { color: inherit; text-decoration: none; }
 .biz-more::after { content: "→"; transition: transform .3s; }
 .biz-card-link:hover .biz-more::after { transform: translateX(5px); }
 
-/* ---------- Token ---------- */
-.token-layout {
-  display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: center;
+/* ---------- Token (Cloud Express flow, layout B) ---------- */
+.token-flow { max-width: 1040px; margin: 8px auto 0; }
+.tk-svg { width: 100%; height: auto; display: block; }
+.token-points {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  max-width: 1040px; margin: 48px auto 0;
 }
-.token-point { display: flex; gap: 20px; padding: 26px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
-.token-point:last-child { border-bottom: 0; }
-.tp-num { font-size: 15px; font-weight: 700; color: var(--blue); padding-top: 3px; }
-.token-point h4 { font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-.token-point p { font-size: 15px; color: var(--dark-soft); }
-.token-figure {
-  background: #fff; border-radius: var(--radius); padding: 18px;
-  box-shadow: 0 30px 80px rgba(10,89,247,0.18);
-}
-.token-figure img { border-radius: 12px; }
-.token-figure figcaption {
-  text-align: center; font-size: 13px; color: var(--ink-soft); padding: 12px 8px 4px;
+.token-point { display: flex; gap: 16px; padding: 24px 0 0; border-top: 1px solid rgba(255,255,255,0.14); }
+.tp-num { font-size: 15px; font-weight: 700; color: #a594ff; padding-top: 2px; font-variant-numeric: tabular-nums; }
+.token-point h4 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.01em; }
+.token-point p { font-size: 14.5px; color: var(--dark-soft); line-height: 1.6; }
+
+/* Token diagram styling */
+.tk-lbl { fill: #f6f6f8; font-weight: 700; letter-spacing: -.01em; }
+.tk-sub { fill: #9b9ba8; font-weight: 500; }
+.tk-zl { fill: #74747f; font-weight: 700; letter-spacing: .16em; }
+.tk-flow { fill: none; stroke: url(#tkpg); stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 9 13; filter: url(#tkglow); animation: tkMarch 1.1s linear infinite; }
+.tk-flowc { fill: none; stroke: #34c759; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 2 9; filter: url(#tkglow); animation: tkMarch 1.5s linear infinite; }
+.tk-flowo { fill: none; stroke: #f5b14c; stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 2 8; animation: tkMarch .9s linear infinite; }
+.tk-base { fill: none; stroke: rgba(150,140,255,.26); stroke-width: 2.6; stroke-linecap: round; }
+.tk-basec { fill: none; stroke: rgba(52,199,89,.22); stroke-width: 2.4; stroke-linecap: round; }
+.tk-pub { fill: none; stroke: #5f6470; stroke-width: 2; stroke-dasharray: 6 7; }
+.tk-port { fill: #a594ff; } .tk-portc { fill: #34c759; }
+.tk-dot { fill: #e2dcff; filter: url(#tkglow); } .tk-dotc { fill: #86efac; filter: url(#tkglow); } .tk-doto { fill: #ffd591; }
+.tk-pr { fill: none; stroke: #a594ff; transform-origin: 470px 275px; animation: tkPulse 2.6s ease-out infinite; }
+.tk-cr { fill: none; stroke: #34c759; transform-origin: 92px 188px; animation: tkPulse 2.4s ease-out infinite; }
+@keyframes tkMarch { to { stroke-dashoffset: -22; } }
+@keyframes tkPulse { 0% { opacity:.5; transform: scale(.5);} 70% { opacity:0; transform: scale(1.3);} 100% { opacity:0; } }
+@media (prefers-reduced-motion: reduce) {
+  .tk-flow, .tk-flowc, .tk-flowo { animation: none; stroke-dasharray: none; }
+  .tk-pr, .tk-cr { animation: none; opacity: 0; }
 }
 
 /* ---------- Data Center ---------- */
@@ -553,7 +568,7 @@ a { color: inherit; text-decoration: none; }
   .nav-toggle { display: block; }
   .brand-name { display: none; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
-  .biz-grid, .token-layout, .contact-grid, .ab-intro, .ab-inventory { grid-template-columns: 1fr; }
+  .biz-grid, .token-points, .contact-grid, .ab-intro, .ab-inventory { grid-template-columns: 1fr; }
   .sol-grid, .dc-gallery, .dc-facts, .svc-map, .cert-grid, .ab-gallery { grid-template-columns: 1fr 1fr; }
   .svc-grid { grid-template-columns: 1fr 1fr; }
   .gn-stats, .gn-awards { grid-template-columns: 1fr 1fr; row-gap: 32px; }
