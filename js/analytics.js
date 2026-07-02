@@ -35,7 +35,8 @@
   const A = window.CTTH_ANALYTICS;
   const host = location.hostname;
   const isLocal = host === "localhost" || host === "127.0.0.1" || host === "";
-  const isAdmin = /admin\.html$/.test(location.pathname);
+  // Cloudflare serves extensionless URLs, so match /admin as well as /admin.html
+  const isAdmin = /\/admin(\.html)?$/.test(location.pathname);
 
   // Log a pageview once per page load, excluding local previews and the admin page.
   if (!isLocal && !isAdmin) {

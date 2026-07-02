@@ -10,7 +10,9 @@
   --dark-text: #f5f5f7;
   --dark-soft: #a1a1a6;
   --radius: 24px;
-  --font: "Inter", "Noto Sans SC", "Noto Sans Thai", -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  /* System-font stack: no external font CDN (Google Fonts is blocked in mainland China
+     and its render-blocking CSS caused 10s+ white screens there). */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans Thai", "Thonburi", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -214,6 +216,12 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Token (Cloud Express flow, layout B) ---------- */
 .token-flow { max-width: 1040px; margin: 8px auto 0; }
 .tk-svg { width: 100%; height: auto; display: block; }
+/* On narrow screens the 1000-unit viewBox would shrink labels below legibility;
+   keep a readable minimum width and let the diagram pan horizontally instead. */
+@media (max-width: 720px) {
+  .token-flow { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  .tk-svg { min-width: 760px; }
+}
 .token-points {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
   max-width: 1040px; margin: 48px auto 0;
